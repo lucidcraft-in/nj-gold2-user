@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "940673551805",
+    "project_id": "nambiyath-gold-diamonds",
+    "storage_bucket": "nambiyath-gold-diamonds.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940673551805:android:cbf4f2bacdffb9fb9ed6d4",
+        "android_client_info": {
+          "package_name": "com.example.nambiyath_gold_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABA7sesGr-F2xq7Gc0i3lkByd5zF1HxX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940673551805:android:e55f4c5c28a176ec9ed6d4",
+        "android_client_info": {
+          "package_name": "com.nj_gold.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABA7sesGr-F2xq7Gc0i3lkByd5zF1HxX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
