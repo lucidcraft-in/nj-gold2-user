@@ -156,12 +156,62 @@ class _TransactionListState extends State<TransactionList>
           ),
           const SizedBox(height: 20),
           if (user != null)
+            // Row(
+            //   children: userBalance.entries
+            //       .where((entry) => user["schemeType"] == "Swarna Samridhi"
+            //           ? entry.key == 'Invested Gold'
+            //           : true)
+            //       .map((entry) {
+            //     print(entry);
+            //     return Expanded(
+            //       child: Container(
+            //         padding: const EdgeInsets.all(16),
+            //         margin: const EdgeInsets.symmetric(horizontal: 4),
+            //         decoration: BoxDecoration(
+            //           color: Colors.white.withOpacity(0.15),
+            //           borderRadius: BorderRadius.circular(16),
+            //           border: Border.all(
+            //             color: Colors.white.withOpacity(0.2),
+            //             width: 1,
+            //           ),
+            //         ),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               entry.key,
+            //               style: TextStyle(
+            //                 fontSize: 12,
+            //                 color: Colors.white.withOpacity(0.8),
+            //                 fontWeight: FontWeight.w500,
+            //               ),
+            //             ),
+            //             const SizedBox(height: 8),
+            //             Text(
+            //               entry.key == 'Invested Amount'
+            //                   ? '₹${entry.value.toStringAsFixed(2)}'
+            //                   : '${entry.value.toStringAsFixed(3)} gm',
+            //               style: const TextStyle(
+            //                 fontSize: 18,
+            //                 fontWeight: FontWeight.bold,
+            //                 color: Colors.white,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   }).toList(),
+            // ),
             Row(
-              children: userBalance.entries
-                  .where((entry) => user["schemeType"] == "Swarna Samridhi"
-                      ? entry.key == 'Invested Gold'
-                      : true)
-                  .map((entry) {
+              children: userBalance.entries.where((entry) {
+                // ✅ If scheme is "Swarna Samridhi", show both
+                if (user["schemeType"] == "Swarna Samridhi") {
+                  return true;
+                }
+                // ✅ For other schemes, show only "Invested Amount"
+                return entry.key == 'Invested Amount';
+              }).map((entry) {
                 return Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -471,6 +521,30 @@ class _TransactionListState extends State<TransactionList>
                                                   ),
                                                 ),
                                               ),
+                                              // Row(
+                                              //   children: [
+                                              //     Icon(
+                                              //       FontAwesomeIcons
+                                              //           .indianRupeeSign,
+                                              //       size: 14,
+                                              //       color: Colors.black87,
+                                              //     ),
+                                              //     const SizedBox(width: 4),
+                                              //     if (user != null)
+                                              //       Text(
+                                              //         user["schemeType"] ==
+                                              //                 "Swarna Samridhi"
+                                              //             ? "${transactionList[index]['gramWeight'].toStringAsFixed(3)} gm"
+                                              //             : "${transactionList[index]['amount'].toString()}",
+                                              //         style: const TextStyle(
+                                              //           fontSize: 16,
+                                              //           fontWeight:
+                                              //               FontWeight.bold,
+                                              //           color: Colors.black87,
+                                              //         ),
+                                              //       ),
+                                              //   ],
+                                              // ),
                                               Row(
                                                 children: [
                                                   Icon(
@@ -481,17 +555,40 @@ class _TransactionListState extends State<TransactionList>
                                                   ),
                                                   const SizedBox(width: 4),
                                                   if (user != null)
-                                                    Text(
-                                                      user["schemeType"] ==
-                                                              "Swarna Samridhi"
-                                                          ? "${transactionList[index]['gramWeight'].toString()} gm"
-                                                          : "${transactionList[index]['amount'].toString()}",
-                                                      style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black87,
-                                                      ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        // Always show Amount
+                                                        Text(
+                                                          "${transactionList[index]['amount'].toString()}",
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.black87,
+                                                          ),
+                                                        ),
+
+                                                        // Show Gold Weight only for Swarna Samridhi
+                                                        if (user[
+                                                                "schemeType"] ==
+                                                            "Swarna Samridhi")
+                                                          Text(
+                                                            "${transactionList[index]['gramWeight'].toStringAsFixed(3)} gm",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey
+                                                                  .shade600,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                      ],
                                                     ),
                                                 ],
                                               ),
@@ -562,30 +659,99 @@ class _TransactionListState extends State<TransactionList>
                                   ),
 
                                 // Expanded Details
-                                if (user != null)
-                                  if (user["schemeType"] != "Swarna Samridhi" &&
-                                      isExpanded)
-                                    AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      margin: const EdgeInsets.only(top: 12),
-                                      padding: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.blue.shade50,
-                                            const Color.fromARGB(
-                                                255, 35, 142, 230),
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: Colors.blue.withOpacity(0.2),
-                                          width: 1,
-                                        ),
+                                // if (user != null)
+                                //   if (user["schemeType"] != "Swarna Samridhi" &&
+                                //       isExpanded)
+                                //     AnimatedContainer(
+                                //       duration:
+                                //           const Duration(milliseconds: 300),
+                                //       margin: const EdgeInsets.only(top: 12),
+                                //       padding: const EdgeInsets.all(16),
+                                //       decoration: BoxDecoration(
+                                //         gradient: LinearGradient(
+                                //           colors: [
+                                //             Colors.blue.shade50,
+                                //             const Color.fromARGB(
+                                //                 255, 35, 142, 230),
+                                //           ],
+                                //         ),
+                                //         borderRadius: BorderRadius.circular(12),
+                                //         border: Border.all(
+                                //           color: Colors.blue.withOpacity(0.2),
+                                //           width: 1,
+                                //         ),
+                                //       ),
+                                //       child: Column(
+                                //         children: [
+                                //           Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.spaceBetween,
+                                //             children: [
+                                //               const Text(
+                                //                 "Gold Rate:",
+                                //                 style: TextStyle(
+                                //                   fontSize: 13,
+                                //                   color: Colors.black54,
+                                //                 ),
+                                //               ),
+                                //               Text(
+                                //                 "₹${transactionList[index]['gramPriceInvestDay'].toString()}",
+                                //                 style: const TextStyle(
+                                //                   fontSize: 13,
+                                //                   fontWeight: FontWeight.w600,
+                                //                   color: Colors.black87,
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //           const SizedBox(height: 8),
+                                //           Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.spaceBetween,
+                                //             children: [
+                                //               const Text(
+                                //                 "Gold Weight:",
+                                //                 style: TextStyle(
+                                //                   fontSize: 13,
+                                //                   color: Colors.black54,
+                                //                 ),
+                                //               ),
+                                //               Text(
+                                //                 "${transactionList[index]['gramWeight'].toStringAsFixed(3)} gm",
+                                //                 style: const TextStyle(
+                                //                   fontSize: 13,
+                                //                   fontWeight: FontWeight.w600,
+                                //                   color: Colors.black87,
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                if (isExpanded)
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    margin: const EdgeInsets.only(top: 12),
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.blue.shade50,
+                                          const Color.fromARGB(
+                                              255, 35, 142, 230),
+                                        ],
                                       ),
-                                      child: Column(
-                                        children: [
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.blue.withOpacity(0.2),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        if (user["schemeType"] ==
+                                            "Swarna Samridhi") ...[
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -620,7 +786,29 @@ class _TransactionListState extends State<TransactionList>
                                                 ),
                                               ),
                                               Text(
-                                                "${transactionList[index]['gramWeight'].toString()} gm",
+                                                "${transactionList[index]['gramWeight'].toStringAsFixed(3)} gm",
+                                                style: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black87,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ] else ...[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text(
+                                                "Amount:",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
+                                              Text(
+                                                "₹${transactionList[index]['amount'].toString()}",
                                                 style: const TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w600,
@@ -630,8 +818,9 @@ class _TransactionListState extends State<TransactionList>
                                             ],
                                           ),
                                         ],
-                                      ),
+                                      ],
                                     ),
+                                  ),
                               ],
                             ),
                           ),

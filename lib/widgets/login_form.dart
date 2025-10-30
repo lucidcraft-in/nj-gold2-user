@@ -57,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
             .toLowerCase()
             .contains(_customerIdController.text.toLowerCase())))
         .toList();
-
+    print(filterList);
     if (filterList.isNotEmpty &&
         filterList[0]['custId'] == _customerIdController.text) {
       if (filterList[0]['phoneNo'] == _passwordController.text) {

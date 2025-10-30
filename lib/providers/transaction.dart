@@ -138,7 +138,7 @@ class Transaction with ChangeNotifier {
       }
 
       double gramTotalWeightFinalFixed =
-          double.parse(gramTotalWeightFinal.toStringAsFixed(4));
+          double.parse(gramTotalWeightFinal.toStringAsFixed(3));
 
       await collectionReference.add({
         'customerName': transactionModel.customerName,
